@@ -13,3 +13,6 @@ local.properties
 /android-client/captures
 .externalNativeBuild
 .cxx
+
+# Virtual Envrionments
+server/.venv-gabriel/ 
