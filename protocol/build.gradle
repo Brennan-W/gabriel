@@ -3,13 +3,12 @@
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral() // Replaced jcenter() with mavenCentral()
         
     }
     dependencies {
-        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.8.0'
-        classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.10'
+        classpath 'com.android.tools.build:gradle:7.0.4' // Update to the latest version
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.9.4'
     }
 }
 
@@ -19,7 +18,7 @@ allprojects {
 
     repositories {
         google()
-        jcenter()
+        // mavenCentral() // Replaced jcenter() with mavenCentral()
     }
 }
 

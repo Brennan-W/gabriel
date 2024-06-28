@@ -15,6 +15,7 @@ enum PayloadType {
     TEXT = 4;
     ANIMATION = 5;
     OTHER = 6;
+    TEST = 7;
 }
 
 message InputFrame {

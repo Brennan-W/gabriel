@@ -1,7 +1,7 @@
 import asyncio
 import multiprocessing
 from gabriel_protocol import gabriel_pb2
-from gabriel_client.websocket_client import ProducerWrapper
+from .websocket_client import ProducerWrapper
 
 
 def consumer(_):

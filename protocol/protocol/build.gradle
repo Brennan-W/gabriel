@@ -1,15 +1,25 @@
-apply plugin: 'com.vanniktech.maven.publish'
-apply plugin: 'java-library'
+plugins {
+    id 'java-library'
+    // id 'com.google.protobuf' version '0.9.4'
+    // id 'com.vanniktech.maven.publish' version '0.18.0'
+}
+
 apply plugin: 'com.google.protobuf'
+
+repositories {
+    mavenCentral() // Use Maven Central for dependencies
+    google() // Add the Google repository if needed
+    maven { url "https://plugins.gradle.org/m2/" } // Add Gradle Plugin Portal
+}
 
 dependencies {
     // You need to depend on the lite runtime library, not protobuf-java
-    api 'com.google.protobuf:protobuf-javalite:3.8.0'
+    api 'com.google.protobuf:protobuf-javalite:4.27.2'
 }
 
 protobuf {
     protoc {
-        artifact = 'com.google.protobuf:protoc:3.8.0'
+        artifact = 'com.google.protobuf:protoc:3.19.0'
     }
     generateProtoTasks {
         all().each { task ->
@@ -19,15 +29,27 @@ protobuf {
                     outputSubDir = 'java'
                 }
                 python {
-                    // This gradle file is located in <REPOSITORY ROOT>/protocol/protocol
-                    // outputSubDir is relative to <REPOSITORY ROOT>/protocol/protocol/src/main
-                    outputSubDir = '../../../python/src/gabriel_protocol'
+                    // Change this to the correct relative path
+                    outputSubDir = '../python/src/gabriel_protocol'
                 }
             }
         }
     }
 
-    generatedFilesBaseDir = 'protocol/src'
+    // Change this to a more appropriate base directory
+    generatedFilesBaseDir = "$projectDir/src/generated"
+}
+
+// Add this task to copy the generated Python files to the correct location
+task copyGeneratedPython(type: Copy) {
+    from "${buildDir}/generated/source/proto/main/python"
+    into "${projectDir}/../python/src/gabriel_protocol"
+    include '**/*.py'
+}
+
+// Make sure copyGeneratedPython runs after proto generation
+afterEvaluate {
+    tasks.findByName('generateProto').finalizedBy(copyGeneratedPython)
 }
 
 sourceSets {
@@ -38,3 +60,5 @@ sourceSets {
         }
     }
 }
+
+
